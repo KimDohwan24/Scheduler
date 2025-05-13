@@ -18,12 +18,15 @@ public class Schedule {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-
-
     public Schedule(String title, String contents , String password) {
         this.title = title;
         this.contents = contents;
         this.password = password;
     }
 
+    public Schedule(Long scheduleId, String title, String contents){
+        this.scheduleId = scheduleId;
+        this.title = title;
+        this.contents = contents;
+    }
 }

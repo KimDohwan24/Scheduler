@@ -4,6 +4,7 @@ import org.example.scheduler.dto.ScheduleRequestDto;
 import org.example.scheduler.dto.ScheduleResponseDto;
 import org.example.scheduler.entity.Schedule;
 import org.example.scheduler.repository.ScheduleRepository;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,9 +29,20 @@ public class ScheduleServiceImpl implements ScheduleService {
         // DB에 전달
         return scheduleResponseDto;
     }
-}
 
-/*
-* User -> controller -> Service -> Repository -> DB
-* DTO ( Data Transfer Object )
-*/
+    // 스케줄 전체 조회 API
+    @Override
+    public List<ScheduleResponseDto> findAllSchedules() {
+        // 전체 조회
+        List<ScheduleResponseDto>  allSchedule = scheduleRepository.findAllSchedule();
+        return allSchedule;
+    }
+
+    // 스케줄 단건 조회
+    @Override
+    public ScheduleResponseDto findScheduleById(Long scheduleId) {
+        Schedule schedule = scheduleRepository.findScheduleByIdOrElseThrow(scheduleId);
+
+        return new ScheduleResponseDto(schedule);
+    }
+}
