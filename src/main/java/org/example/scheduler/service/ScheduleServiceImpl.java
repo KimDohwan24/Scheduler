@@ -7,6 +7,7 @@ import org.example.scheduler.repository.ScheduleRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
@@ -44,11 +45,13 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Override
     public ScheduleResponseDto findScheduleById(Long scheduleId) {
         Schedule schedule = scheduleRepository.findScheduleByIdOrElseThrow(scheduleId);
-
+        System.out.println(schedule.getCreatedAt());
+        System.out.println(schedule.getUpdatedAt());
         return new ScheduleResponseDto(schedule);
     }
 
     // 스케줄 수정
+    @Transactional
     @Override
     public ScheduleResponseDto updateSchedule(Long scheduleId, String title, String contents, String password) {
         Schedule schedule = scheduleRepository.findScheduleByIdOrElseThrow(scheduleId);
@@ -64,5 +67,21 @@ public class ScheduleServiceImpl implements ScheduleService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,"No data has been modifieds");
         }
         return new ScheduleResponseDto(schedule);
+    }
+
+    // schedule 삭제
+    @Override
+    public void deleteSchedule(Long scheduleId, String password) {
+        Schedule schedule = scheduleRepository.findScheduleByIdOrElseThrow(scheduleId);
+
+        int deleteRow = 0;
+
+        if(schedule.getPassword().equals(password)){
+            deleteRow = scheduleRepository.deleteSchedule(scheduleId);
+        }
+
+        if(deleteRow == 0){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Does not exist id = " + schedule);
+        }
     }
 }

@@ -14,6 +14,7 @@ import org.springframework.web.server.ResponseStatusException;
 import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -40,8 +41,8 @@ public class ScheduleRepositoryImpl implements ScheduleRepository {
         parameters.put("contents", schedule.getContents());
         parameters.put("password", schedule.getPassword());
 
-        schedule.setUpdatedAt(LocalDateTime.now());
-        schedule.setCreatedAt(LocalDateTime.now());
+        schedule.setUpdatedAt(Timestamp.valueOf(LocalDateTime.now()));
+        schedule.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
         parameters.put("createdAt", schedule.getCreatedAt());
         parameters.put("updatedAt", schedule.getUpdatedAt());
 
@@ -49,7 +50,7 @@ public class ScheduleRepositoryImpl implements ScheduleRepository {
         Number key = simpleJdbcInsert.executeAndReturnKey(new MapSqlParameterSource(parameters));
 
         // PostMan에 출력
-        return new ScheduleResponseDto(key.longValue(), schedule.getTitle(), schedule.getContents());
+        return new ScheduleResponseDto(key.longValue(), schedule.getTitle(), schedule.getContents(),schedule.getCreatedAt(),schedule.getUpdatedAt());
     }
 
     // 스케줄 전체 조회
@@ -68,7 +69,13 @@ public class ScheduleRepositoryImpl implements ScheduleRepository {
     // 스케줄 수정
     @Override
     public int updateSchedule(Long scheduleId, String title, String contents) {
-        return jdbcTemplate.update("update schedule set title = ?, contents = ? where scheduleId = ?",title,contents,scheduleId);
+        return jdbcTemplate.update("update schedule set title = ?, contents = ?, updatedAt = ? where scheduleId = ?",title,contents,Timestamp.valueOf(LocalDateTime.now()),scheduleId);
+    }
+
+    // 스케줄 삭제
+    @Override
+    public int deleteSchedule(Long scheduleId) {
+        return jdbcTemplate.update("delete from schedule where scheduleId = ?",scheduleId);
     }
 
 
@@ -81,7 +88,9 @@ public class ScheduleRepositoryImpl implements ScheduleRepository {
                 return new ScheduleResponseDto(
                         rs.getLong("scheduleId"),
                         rs.getString("title"),
-                        rs.getString("contents")
+                        rs.getString("contents"),
+                        rs.getTimestamp("createdAt"),
+                        rs.getTimestamp("updatedAt")
                 );
             }
         };
@@ -95,7 +104,9 @@ public class ScheduleRepositoryImpl implements ScheduleRepository {
                         rs.getLong("scheduleId"),
                         rs.getString("title"),
                         rs.getString("contents"),
-                        rs.getString("password")
+                        rs.getString("password"),
+                        rs.getTimestamp("createdAt"),
+                        rs.getTimestamp("updatedAt")
                 );
             }
         };

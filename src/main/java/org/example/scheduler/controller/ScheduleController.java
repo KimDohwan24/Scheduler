@@ -49,7 +49,17 @@ public class ScheduleController {
             @PathVariable Long scheduleId,
             @RequestBody ScheduleRequestDto scheduleRequestDto
             ){
-//        System.out.println("password = "+scheduleRequestDto.getPassword());
         return new ResponseEntity<>(scheduleService.updateSchedule(scheduleId,scheduleRequestDto.getTitle(),scheduleRequestDto.getContents(),scheduleRequestDto.getPassword()), HttpStatus.OK);
+    }
+
+    // schedule 삭제
+    @DeleteMapping("/{scheduleId}")
+    public ResponseEntity<Void> deleteSchedule(
+            @PathVariable Long scheduleId,
+            @RequestBody ScheduleRequestDto scheduleRequestDto
+    ){
+        scheduleService.deleteSchedule(scheduleId,scheduleRequestDto.getPassword());
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
