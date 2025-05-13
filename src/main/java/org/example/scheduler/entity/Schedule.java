@@ -3,9 +3,8 @@ package org.example.scheduler.entity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
+
 
 
 @Getter
@@ -20,13 +19,6 @@ public class Schedule {
     private Timestamp updatedAt;
 
     public Schedule(String title, String contents , String password) {
-        this.title = title;
-        this.contents = contents;
-        this.password = password;
-    }
-
-    public Schedule(Long scheduleId, String title, String contents,String password){
-        this.scheduleId = scheduleId;
         this.title = title;
         this.contents = contents;
         this.password = password;

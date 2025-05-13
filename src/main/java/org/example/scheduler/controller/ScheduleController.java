@@ -1,10 +1,7 @@
 package org.example.scheduler.controller;
 
-
-import lombok.RequiredArgsConstructor;
 import org.example.scheduler.dto.ScheduleRequestDto;
 import org.example.scheduler.dto.ScheduleResponseDto;
-import org.example.scheduler.entity.Schedule;
 import org.example.scheduler.service.ScheduleService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

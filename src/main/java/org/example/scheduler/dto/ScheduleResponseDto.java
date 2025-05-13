@@ -3,9 +3,8 @@ package org.example.scheduler.dto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.example.scheduler.entity.Schedule;
-
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
+
 
 @Getter
 @AllArgsConstructor

@@ -5,7 +5,6 @@ import org.example.scheduler.dto.ScheduleResponseDto;
 import org.example.scheduler.entity.Schedule;
 import org.example.scheduler.repository.ScheduleRepository;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
