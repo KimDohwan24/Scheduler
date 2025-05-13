@@ -4,8 +4,10 @@ import org.example.scheduler.dto.ScheduleRequestDto;
 import org.example.scheduler.dto.ScheduleResponseDto;
 import org.example.scheduler.entity.Schedule;
 import org.example.scheduler.repository.ScheduleRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -34,7 +36,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Override
     public List<ScheduleResponseDto> findAllSchedules() {
         // 전체 조회
-        List<ScheduleResponseDto>  allSchedule = scheduleRepository.findAllSchedule();
+        List<ScheduleResponseDto> allSchedule = scheduleRepository.findAllSchedule();
         return allSchedule;
     }
 
@@ -43,6 +45,24 @@ public class ScheduleServiceImpl implements ScheduleService {
     public ScheduleResponseDto findScheduleById(Long scheduleId) {
         Schedule schedule = scheduleRepository.findScheduleByIdOrElseThrow(scheduleId);
 
+        return new ScheduleResponseDto(schedule);
+    }
+
+    // 스케줄 수정
+    @Override
+    public ScheduleResponseDto updateSchedule(Long scheduleId, String title, String contents, String password) {
+        Schedule schedule = scheduleRepository.findScheduleByIdOrElseThrow(scheduleId);
+        int updateRow = 0;
+
+        if(password == null){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"The title and content are required values");
+        } else if (schedule.getPassword().equals(password)) {
+            updateRow = scheduleRepository.updateSchedule(scheduleId,title,contents);
+        }
+
+        if(updateRow == 0){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"No data has been modifieds");
+        }
         return new ScheduleResponseDto(schedule);
     }
 }

@@ -4,6 +4,7 @@ package org.example.scheduler.controller;
 import lombok.RequiredArgsConstructor;
 import org.example.scheduler.dto.ScheduleRequestDto;
 import org.example.scheduler.dto.ScheduleResponseDto;
+import org.example.scheduler.entity.Schedule;
 import org.example.scheduler.service.ScheduleService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,5 +41,15 @@ public class ScheduleController {
     @GetMapping("/{scheduleId}")
     public ResponseEntity<ScheduleResponseDto> findScheduleById(@PathVariable Long scheduleId){
         return new ResponseEntity<>(scheduleService.findScheduleById(scheduleId),HttpStatus.OK);
+    }
+
+    // schedule 수정
+    @PutMapping("/{scheduleId}")
+    public ResponseEntity<ScheduleResponseDto> updateSchedule(
+            @PathVariable Long scheduleId,
+            @RequestBody ScheduleRequestDto scheduleRequestDto
+            ){
+//        System.out.println("password = "+scheduleRequestDto.getPassword());
+        return new ResponseEntity<>(scheduleService.updateSchedule(scheduleId,scheduleRequestDto.getTitle(),scheduleRequestDto.getContents(),scheduleRequestDto.getPassword()), HttpStatus.OK);
     }
 }

@@ -14,4 +14,6 @@ public interface ScheduleRepository {
 
     Schedule findScheduleByIdOrElseThrow(Long scheduleId);
 
+    int updateSchedule(Long scheduleId,String title,String contents);
+
 }

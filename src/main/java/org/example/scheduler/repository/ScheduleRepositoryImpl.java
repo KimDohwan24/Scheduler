@@ -58,10 +58,17 @@ public class ScheduleRepositoryImpl implements ScheduleRepository {
         return jdbcTemplate.query("select * from schedule", scheduleRowMapper());
     }
 
+    // 스케줄 단건 조회
     @Override
     public Schedule findScheduleByIdOrElseThrow(Long scheduleId) {
         List<Schedule> result = jdbcTemplate.query("select * from schedule where scheduleId = ?",scheduleRowMapperV2(),scheduleId);
         return result.stream().findAny().orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,"Does not exists id = " + scheduleId));
+    }
+
+    // 스케줄 수정
+    @Override
+    public int updateSchedule(Long scheduleId, String title, String contents) {
+        return jdbcTemplate.update("update schedule set title = ?, contents = ? where scheduleId = ?",title,contents,scheduleId);
     }
 
 
@@ -87,7 +94,8 @@ public class ScheduleRepositoryImpl implements ScheduleRepository {
                 return new Schedule(
                         rs.getLong("scheduleId"),
                         rs.getString("title"),
-                        rs.getString("contents")
+                        rs.getString("contents"),
+                        rs.getString("password")
                 );
             }
         };

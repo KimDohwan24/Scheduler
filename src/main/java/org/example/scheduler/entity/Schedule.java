@@ -24,9 +24,10 @@ public class Schedule {
         this.password = password;
     }
 
-    public Schedule(Long scheduleId, String title, String contents){
+    public Schedule(Long scheduleId, String title, String contents,String password){
         this.scheduleId = scheduleId;
         this.title = title;
         this.contents = contents;
+        this.password = password;
     }
 }
