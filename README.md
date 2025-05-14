@@ -5,8 +5,8 @@
 | 스케줄 생성 | POST | /schudules | 요청 body | 200 : 정상 등록 |
 | 스케줄 전체 조회 | GET | /schedules/{scheduleId} | 요청 param | 200 : 정상 등록  <br>404 : NOT_FOUND |
 | 스케줄 단건 조회 | GET | /schedules/{scheduleId} | 요청 param | 200 : 정상 등록  <br>404 : NOT_FOUND |
-| 스케줄 수정 | PUT | /schedules/{scheduleId} | 요청 body | 200 : 정상 등록  <br>404 : NOT_FOUND |
-| 스케줄 삭제 | DELETE | /schedules/{scheduleId} | 요청 param | 200 : 정상 등록  <br>404 : NOT_FOUND |
+| 스케줄 수정 | PUT | /schedules/{scheduleId} | 요청 body | 200 : 정상 등록  <br>404 : NOT_FOUND <br> 400 비밀번호 오류 |
+| 스케줄 삭제 | DELETE | /schedules/{scheduleId} | 요청 param | 200 : 정상 등록  <br>404 : NOT_FOUND <br> 400 비밀번호 오류  |
 
 <H1> ERD </H1>
 
